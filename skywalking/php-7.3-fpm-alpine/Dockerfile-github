@@ -1,0 +1,40 @@
+FROM php:7.3-fpm-alpine
+
+#v1.31.x
+ENV GRPC_RELEASE_TAG master
+
+ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib64
+ENV LD_RUN_PATH=$LD_RUN_PATH:/usr/local/lib:/usr/local/lib64
+
+#阿里云资源
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories 
+
+RUN set -ex \
+	&& apk --update add --no-cache boost-dev git ca-certificates autoconf wget automake libtool g++ make cmake file linux-headers file re2c pkgconf openssl openssl-dev curl-dev \
+
+	# clone grpc
+	&& git clone --depth 1 -b ${GRPC_RELEASE_TAG} https://github.com.cnpmjs.org/vallbuy/grpc.git --recursive /var/local/git/grpc \
+	
+	# installing protobuf
+    && cd /var/local/git/grpc/third_party/protobuf \
+    && ./autogen.sh && ./configure && make -j$(nproc) && make install && make clean \
+
+    # installing grpc
+	&& cd /var/local/git/grpc \
+    && mkdir -p cmake/build && cd cmake/build && cmake ../.. -DBUILD_SHARED_LIBS=ON -DgRPC_INSTALL=ON \
+	&& make -j$(nproc) && make install && make clean \
+
+    # installing skywalking
+	#&& pecl install skywalking \
+	#&& docker-php-ext-enable skywalking \
+
+	&& docker-php-ext-install -j$(nproc) iconv mcrypt \
+	&& docker-php-ext-install pdo_mysql \
+
+	#&& cd / && rm -rf /var/local/git/grpc \
+
+RUN mv "$PHP_INI_DIR/php.ini-production" "$PHP_INI_DIR/php.ini"
+
+EXPOSE 9000
+
+CMD ["php-fpm"]
