@@ -15,7 +15,7 @@ RUN set -ex \
 	&& git clone https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk.git \
 	&& cd SkyAPM-php-sdk \
 	&& phpize && ./configure && make && make install \
-	&& cd ../ && rm -rf SkyAPM-php-sdk-4.1.1 v4.1.1.tar.gz
+	&& cd ../ && rm -rf SkyAPM-php-sdk
 
 COPY ./ext-skywalking.ini $PHP_INI_DIR/conf.d/ext-skywalking.ini
 COPY ./docker-entrypoint.sh /opt/
