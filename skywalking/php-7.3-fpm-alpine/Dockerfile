@@ -11,7 +11,7 @@ RUN set -ex \
 	#&& pecl install skywalking \
 	#&& docker-php-ext-enable skywalking
 
-	&&  docker-php-ext-install mysqli
+	&& docker-php-ext-install mysqli
 
 RUN set -ex \
 	&& git clone https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk.git \
