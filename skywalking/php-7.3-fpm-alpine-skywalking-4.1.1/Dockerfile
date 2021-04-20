@@ -5,17 +5,19 @@ FROM php:7.3-fpm-alpine
 COPY ./repositories /etc/apk/repositories
 
 RUN set -ex \
-	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c git
+	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c
 
     # installing skywalking
 	#&& pecl install skywalking \
 	#&& docker-php-ext-enable skywalking
 
 RUN set -ex \
-	&& git clone https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk.git \
-	&& cd SkyAPM-php-sdk \
+	&& curl -Lo v4.1.1.tar.gz https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk/archive/v4.1.1.tar.gz \
+	&& tar zxvf v4.1.1.tar.gz \
+	&& cd SkyAPM-php-sdk-4.1.1 \
 	&& phpize && ./configure && make && make install \
 	&& cd ../ && rm -rf SkyAPM-php-sdk-4.1.1 v4.1.1.tar.gz
+
 
 COPY ./ext-skywalking.ini $PHP_INI_DIR/conf.d/ext-skywalking.ini
 COPY ./docker-entrypoint.sh /opt/
