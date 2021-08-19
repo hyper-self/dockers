@@ -4,9 +4,6 @@ FROM php:7.3-fpm-alpine
 #复制源
 COPY ./repositories /etc/apk/repositories
 
-ENV LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/usr/local/lib:/usr/local/lib64
-ENV LD_RUN_PATH=$LD_RUN_PATH:/usr/local/lib:/usr/local/lib64
-
 RUN set -ex \
 	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c
 
