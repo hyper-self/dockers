@@ -27,6 +27,4 @@ COPY ./docker-entrypoint.sh /opt/
 
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
 
-EXPOSE 9000
-
 CMD ["php-fpm"]
