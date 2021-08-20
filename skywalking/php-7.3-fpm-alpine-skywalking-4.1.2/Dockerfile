@@ -11,7 +11,7 @@ RUN set -ex \
 	# installing skywalking
 	#&& pecl install skywalking \
 	#&& docker-php-ext-enable skywalking
-	docker-php-ext-install mysqli
+	&& docker-php-ext-install mysqli
 
 RUN set -ex \
 	&& curl -Lo v${SKYWALKING_PHP_TAG}.tar.gz https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk/archive/v${SKYWALKING_PHP_TAG}.tar.gz \
