@@ -1,10 +1,10 @@
-#镜像生成 docker build -t vallbuy/skywalking-php-7.3-fpm-alpine-4.1.3 ./
+#镜像生成 docker build -t vallbuy/skywalking-php-7.3-fpm-alpine-4.1.2 ./
 FROM php:7.3-fpm-alpine
 
 #复制源
 COPY ./repositories /etc/apk/repositories
 
-ENV SKYWALKING_PHP_TAG 4.1.3
+ENV SKYWALKING_PHP_TAG 4.1.2
 
 RUN set -ex \
 	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c boost-dev \
