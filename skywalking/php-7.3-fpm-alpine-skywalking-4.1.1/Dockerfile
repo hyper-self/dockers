@@ -19,7 +19,7 @@ RUN set -ex \
 	&& cd ../ && rm -rf SkyAPM-php-sdk-4.1.1 v4.1.1.tar.gz
 
 
-COPY ./ext-skywalking.ini $PHP_INI_DIR/conf.d/ext-skywalking.ini
+COPY ./docker-php-ext-skywalking.ini $PHP_INI_DIR/conf.d/docker-php-ext-skywalking.ini
 COPY ./docker-entrypoint.sh /opt/
 
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]

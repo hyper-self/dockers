@@ -21,7 +21,7 @@ RUN set -ex \
     && mkdir -p cmake/build && cd cmake/build && cmake -DBUILD_SHARED_LIBS=ON ../.. \
     && make -j$(nproc)
 
-COPY ./ext-skywalking.ini $PHP_INI_DIR/conf.d/ext-skywalking.ini
+COPY ./docker-php-ext-skywalking.ini $PHP_INI_DIR/conf.d/docker-php-ext-skywalking.ini
 COPY ./docker-entrypoint.sh /opt/
 
 ENTRYPOINT ["/opt/docker-entrypoint.sh"]
