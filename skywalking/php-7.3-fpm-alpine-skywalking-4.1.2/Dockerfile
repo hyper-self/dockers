@@ -7,11 +7,16 @@ COPY ./repositories /etc/apk/repositories
 ENV SKYWALKING_PHP_TAG 4.1.2
 
 RUN set -ex \
-	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c boost-dev \
+	&& apk add --update --no-cache autoconf g++ protobuf-dev grpc-dev curl-dev make re2c boost-dev libpng-dev freetype-dev libjpeg-turbo-dev libzip-dev \
+	&& pecl install redis zip \
+	&& docker-php-ext-enable redis zip \
+	&& docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ --with-png-dir=/usr/include/ \
+	&& docker-php-ext-install -j$(nproc) gd \
+	&& docker-php-ext-install pdo_mysql mysqli
+	
 	# installing skywalking
 	#&& pecl install skywalking \
 	#&& docker-php-ext-enable skywalking
-	&& docker-php-ext-install mysqli
 
 RUN set -ex \
 	&& curl -Lo v${SKYWALKING_PHP_TAG}.tar.gz https://github.com.cnpmjs.org/SkyAPM/SkyAPM-php-sdk/archive/v${SKYWALKING_PHP_TAG}.tar.gz \
