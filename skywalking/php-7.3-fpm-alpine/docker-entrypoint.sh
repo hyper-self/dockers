@@ -13,7 +13,7 @@ if [ ! $app_code ]; then
     app_code="MyProjectName"
 fi
 
-sed -i "s/127.0.0.1:11800/$grpc/g" $PHP_INI_DIR/conf.d/ext-skywalking.ini
-sed -i "s/MyProjectName/$app_code/g" $PHP_INI_DIR/conf.d/ext-skywalking.ini
+sed -i "s/127.0.0.1:11800/$grpc/g" $PHP_INI_DIR/conf.d/docker-php-ext-skywalking.ini
+sed -i "s/MyProjectName/$app_code/g" $PHP_INI_DIR/conf.d/docker-php-ext-skywalking.ini
 
 exec "$@"
